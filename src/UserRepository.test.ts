@@ -14,7 +14,7 @@ describe("Save", () => {
 })
 
 describe("List", () => {
-  test.only("Deve ser capaz de listar os usuários", () => {
+  test("Deve ser capaz de listar os usuários", () => {
     // Preparaçao/Arrange/Given
     const repository = new UserRepository()
     repository.save("Victor")
@@ -23,5 +23,29 @@ describe("List", () => {
     const result = repository.list()
     // Validaçao/Assert/Then
     expect(result).toHaveLength(2)
+  })
+})
+
+describe("GetOne", () => {
+  test.only("Deve ser capaz de buscar um usuário por id", () => {
+    const repository = new UserRepository()
+    repository.save("Victor")
+    const userId = repository.users[0].id
+    const result = repository.getOne(userId)
+    expect(result).toStrictEqual({ id: userId, name: "Victor" })
+  })
+})
+
+describe("Delete", () => {
+  test("deve ser capaz de remover um usuário", () => {
+    const repository = new UserRepository()
+    repository.save("Victor")
+    const userId = repository.users[0].id
+
+    repository.delete(userId)
+    const user = repository.getOne(userId)
+
+    expect(user).toBe(undefined)
+    expect(repository.users).toHaveLength(0)
   })
 })
