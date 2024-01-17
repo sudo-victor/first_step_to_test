@@ -5,20 +5,30 @@ interface IUser {
 }
 
 export class UserRepository {
-  users: any = []
+  users: IUser[] = []
 
   save(name: string) {
     const user = {
-      id: Math.random(),
+      id: String(Math.random()),
       name
     }
 
     this.users.push(user)
   }
 
-  list() {}
+  list() {
+    return this.users
+  }
 
-  getOne() {}
+  getOne(id: string) {
+    return this.users.find((user) => user.id === id)
+  }
 
-  delete() {}
+  delete(id: string) {
+    const index = this.users.findIndex((user) => user.id === id)
+    if (index < 0) {
+      return "User not found"
+    }
+    this.users.splice(index, 1)
+  }
 }

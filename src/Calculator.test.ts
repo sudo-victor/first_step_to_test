@@ -24,7 +24,6 @@ describe("Sum", () => {
 
     expect(result).toEqual(8)
   })
-
 })
 
 describe("Multiply", () => {
