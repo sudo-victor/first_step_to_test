@@ -28,7 +28,22 @@ export class Library {
     }
     this.books.push(data)
   }
-  list() {}
-  getByCategory(category: string) {}
-  allocateBook(customerName: string, bookId: string) {}
+
+  list() {
+    return this.books
+  }
+
+  getByCategory(category: string) {
+    return this.books.filter((item) => item.category === category)
+  }
+
+  allocateBook(customerName: string, bookId: string) {
+    const book = this.books.find((item) => item.id === bookId)
+    if (!book) {
+      return "Book not found"
+    }
+
+    book.customerName = customerName
+    book.status = "allocated"
+  }
 }
