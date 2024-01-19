@@ -28,7 +28,7 @@ interface ICar {
 
 interface IRent {
   customerId: string;
-  cardId: string;
+  carId: string;
   employeeCode: string;
 }
 
@@ -54,12 +54,42 @@ export class Localiza {
     this.customers.push(customer)
   }
 
-  registerEmployee() {}
+  registerEmployee(name: string) {
+    const employee = {
+      name,
+      code: randomUUID()
+    }
 
-  registerCar() {}
+    this.employees.push(employee)
+  }
 
-  rent() {}
+  registerCar(data: Omit<ICar, "id" & "status">) {
+    const car = {
+      ...data,
+      id: randomUUID(),
+      status: "available"
+    }
 
-  listAvailableCars() {}
+    this.cars.push(car)
+  }
+
+  rent(customerId: string, carId: string, employeeCode: string) {
+    const car = this.cars.find((car) => car.id === carId && car.status === "available")
+    if(!car) {
+      return "Car is not available"
+    }
+
+    car.status = "rented"
+    const rent = {
+      customerId,
+      carId,
+      employeeCode
+    }
+    this.rents.push(rent)
+  }
+
+  listAvailableCars() {
+    return this.cars.filter(car => car.status === "available")
+  }
 
 }
